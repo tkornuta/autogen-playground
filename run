@@ -1,0 +1,68 @@
+#!/usr/bin/env sh
+
+install_full_command() {
+    poetry install --with dev,test
+}
+
+update_command() {
+    git pull origin main
+    poetry update
+}
+
+hooks_command() {
+    pre-commit run --all-files
+}
+
+test_command() {
+    poetry run pytest "$@"
+}
+
+format_command() {
+    poetry run black .
+    poetry run isort .
+}
+
+backend_command() {
+    poetry run backend "$@"
+}
+
+run_python_command () {
+    poetry run python "$@"
+}
+
+show_help() {
+    echo "Usage: ./run [option]"
+    echo "Options:"
+    echo "  install                Install with dev and test dependencies"
+    echo "  update                 Git pull and update dependencies"
+    echo "  hooks                  Run pre-commit hooks"
+    echo "  format                 Run formatting scripts"
+    echo "  test                   Run tests"
+    echo "  backend                Run backend"
+    echo "  python                 Run python script"
+    echo "  help                   Show this help message"
+}
+
+if [ -z "$1" ]; then
+    show_help
+else
+    case "$1" in
+        "install") install_full_command ;;
+        "update") update_command ;;
+        "hooks") hooks_command ;;
+        "format") format_command ;;
+        "test")
+            shift
+            test_command "$@"
+            ;;
+        "backend")
+            shift
+            backend_command "$@"
+            ;;
+        "python")
+            shift
+            run_python_command "$@"
+            ;;
+        *) show_help ;;
+    esac
+fi

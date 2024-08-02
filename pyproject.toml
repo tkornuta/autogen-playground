@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "autogen-playground"
+version = "0.1.0"
+description = ""
+authors = ["Tomasz Kornuta <tkornuta@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+pyautogen = "^0.2.32"
+chess = "^1.10.0"
+cairosvg = "^2.7.1"
+pillow = "^10.4.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
